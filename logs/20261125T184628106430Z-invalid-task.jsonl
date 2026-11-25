@@ -1,0 +1,2 @@
+{"case": "invalid-task", "request_body": {"goal": "Read example.com", "environment": {"type": "unsupported"}}}
+{"case": "invalid-task", "endpoint": "/tasks", "method": "POST", "status": 400, "headers": {"content-type": "application/json", "x-moss-request-id": "bfaac5cf7ca14f99bc8d3cf85067d5b9"}, "elapsed_ms": 1651.81, "body": {"error": {"message": "environment must be {\"type\": \"browser\"}; v0 runs browser tasks only", "type": "invalid_request_error", "code": "invalid_request_error", "request_id": "bfaac5cf7ca14f99bc8d3cf85067d5b9"}}}

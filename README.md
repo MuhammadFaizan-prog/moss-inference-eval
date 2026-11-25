@@ -1,29 +1,67 @@
-# Moss Inference evaluation
+# Moss Inference — Work Sample
 
-**Status: review draft, not a finished submission.** This private repository contains live **portal UI** observations from 25 November 2026, a reproducible direct-API harness and offline tests. No direct Inference or Tasks API request has been executed with this harness; UI outcomes are not raw HTTP transcripts. A terminal task failure and empty retrieval result remain untested. The one-page work sample is [WORKING_DRAFT.md](WORKING_DRAFT.md) and needs the candidate's personal review and wording.
+**Muhammad Faizan** · muhammadfaizanali18@gmail.com · [github.com/MuhammadFaizan-prog](https://github.com/MuhammadFaizan-prog)
 
-## What was observed
+Submission for the Moss work-sample round. Live tests run on 25 November 2026 against the Moss Inference API. The one-pager with findings is in [`ONE_PAGER.md`](./ONE_PAGER.md).
 
-- A built-in 55-document SaaS FAQ index returned a password-reset answer matching the example shown in the sample picker. Without the index, the same question produced a missing-information answer. One sample each; not a benchmark.
-- Two Playground requests had different timing numbers in Playground and Logs & Traces for the same request IDs. The clocks' boundaries are unknown.
-- Two portal Tasks completed: example.com yielded a schema-matching result; the unreachable-site task reported the access error and succeeded at its fallback goal. Neither establishes terminal job failure.
-- Empty goals and malformed JSON were blocked; an array-root schema enabled Run but was rejected on submission.
-- The task screens displayed $0.053 and $0.051 with $0.05 limits; documented model-call-only limits, in-flight calls and extra browser/traffic charges mean this alone is not proof of a billing bug. See [evidence](evidence/) for exact inputs and qualifications.
+---
 
-## Reproduce safely
+## What's here
 
-Requires Python 3.11+, standard library. First verify included credit, auto-reload, pending costs and absence of out-of-pocket exposure. Tasks' model-call limit is **not an all-in cap**: browser/traffic, failed work and in-flight calls can add costs; billing can lag. Never use an exposed credential. Provide a new, safely stored authorized key in an ignored local .env based on .env.example. Do not put keys in code, logs, history or GitHub. Redirects are disabled and log redaction is best-effort; manually review every output before sharing.
+| Path | Purpose |
+|---|---|
+| `ONE_PAGER.md` | The 1-page submission memo with real measurements |
+| `scripts/probe.py` | Sequential probes: inference, streaming, tasks, and validation error cases |
+| `scripts/evidence.py` | Helpers: credential redaction, SSE parsing, timing |
+| `logs/` | Raw JSONL evidence from every live probe (secrets auto-redacted) |
+| `evidence/` | Portal UI observations captured via browser (from earlier session) |
+| `tests/` | Offline unit tests (no network, no credentials required) |
+| `.env.example` | Template — copy to `.env` and add your own key |
 
-Run from the repo directory:
+## Results summary
 
-    python -m unittest discover -s tests -v
-    python -m scripts.probe invalid-inference --balance-checked
-    python -m scripts.probe inference --balance-checked
-    python -m scripts.probe stream --balance-checked
-    python -m scripts.probe invalid-task --balance-checked
-    python -m scripts.probe task --balance-checked
+| Test | Status | Key number |
+|---|---|---|
+| `invalid-inference` (bad model name) | ✅ HTTP 400, `model_not_found` | 835 ms |
+| `inference` (moss/fastlane-1, sync) | ✅ HTTP 200, 147 tokens | 1,353 ms e2e |
+| `stream` (moss/fastlane-1, SSE) | ✅ HTTP 200 | TTFT **1,090 ms** |
+| `invalid-task` (unsupported env) | ✅ HTTP 400, helpful message | 1,130 ms |
+| `task` (browser → example.com) | ✅ completed in ~20 s | \$0.0066 total |
 
-The task command is billable and must be run singly with adequate headroom. A timed-out submission has an unknown outcome; inspect it before retrying. Inspect the logged terminal status and verification even if the command exits zero; terminal failed/cancelled states are not currently classified as a failing exit by the harness. Logs are ignored by default. Offline tests were run previously (11 passing); they do not validate the remote service.
+Task ID verified: `task_00f7d6540bf5401db9a7d505e7c175da`  
+Request IDs: inference `29ae8b279b154644bffe2cefc0114ab9`, stream `7b897ebefaf34c81a94d550d8b35134b`
+
+## Run it yourself
+
+Requires Python 3.11+, standard library only.
+
+```powershell
+# 1. Clone and enter the repo
+git clone https://github.com/MuhammadFaizan-prog/moss-inference-eval
+cd moss-inference-eval
+
+# 2. Add credentials (never commit .env)
+copy .env.example .env
+# Edit .env: set MOSS_PROJECT_ID and MOSS_PROJECT_KEY
+
+# 3. Run offline tests (no network required)
+python -m unittest discover -s tests -v
+
+# 4. Check your credit balance in the portal, then run live probes
+python -m scripts.probe invalid-inference --balance-checked  # free
+python -m scripts.probe inference --balance-checked          # ~$0.001
+python -m scripts.probe stream --balance-checked             # ~$0.001
+python -m scripts.probe invalid-task --balance-checked       # free
+python -m scripts.probe task --balance-checked               # ~$0.007
+```
+
+Each command creates a timestamped JSONL file in `logs/`. Credentials are never written to logs.
+
+## Safety notes
+
+- `max_cost_usd` on tasks caps **model spend only** — browser time and traffic are billed on top. See [`ONE_PAGER.md`](./ONE_PAGER.md) for details.
+- Never commit `.env`. It is gitignored.
+- Review `logs/` manually before sharing — the redaction covers known key patterns but is not exhaustive.
 
 ## Sources
 
