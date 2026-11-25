@@ -15,7 +15,7 @@ Reproduce a small set of sequential, synthetic probes for Moss Inference and Tas
 
 ## Run
 
-Requires Python 3.11+; standard library only. Run from this directory. Set project ID and key in the shell securely; do not place the key in source or command history. Never commit `.env` files. Set the variables only for the process/session and do not paste them in chat.
+Requires Python 3.11+; standard library only. Run from this directory. Copy `.env.example` to `.env` and privately add the project key, or set `MOSS_PROJECT_ID` and `MOSS_PROJECT_KEY` in your shell. Do not put the key in source, command history, or chat. Never commit `.env` files; it is ignored. Existing environment variables take precedence over `.env`.
 
 ```powershell
 python -m unittest discover -s tests -v

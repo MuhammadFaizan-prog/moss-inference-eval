@@ -4,6 +4,19 @@ import re
 
 SENSITIVE_KEYS = {'authorization', 'api_key', 'project_key', 'x-moss-provider-key'}
 
+def read_env(path):
+    if not path.is_file():
+        return {}
+    values = {}
+    for line in path.read_text(encoding='utf-8-sig').splitlines():
+        name, sep, value = line.partition('=')
+        if sep and name.strip() in {'MOSS_PROJECT_ID', 'MOSS_PROJECT_KEY'}:
+            value = value.strip()
+            if len(value) >= 2 and value[0] == value[-1] and value[0] in ('\"', "'"):
+                value = value[1:-1]
+            values[name.strip()] = value
+    return values
+
 def redact(value, secrets):
     if isinstance(value, dict):
         return {key: '[redacted]' if key.lower() in SENSITIVE_KEYS else redact(val, secrets) for key, val in value.items()}

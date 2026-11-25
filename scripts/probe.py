@@ -9,7 +9,7 @@ import sys
 import time
 import urllib.error
 import urllib.request
-from scripts.evidence import redact, parse_sse, first_sentence_ms
+from scripts.evidence import redact, parse_sse, first_sentence_ms, read_env
 
 BASE = 'https://inference.moss.dev/v1'
 ALLOWED_HEADERS = {'content-type', 'x-moss-request-id', 'x-moss-retrieve-ms', 'idempotent-replayed', 'retry-after'}
@@ -38,7 +38,9 @@ def main():
     args = p.parse_args()
     if not args.balance_checked:
         p.error('Check remaining included credits and auto-reload first, then pass --balance-checked')
-    project, key = os.getenv('MOSS_PROJECT_ID'), os.getenv('MOSS_PROJECT_KEY')
+    local_env = read_env(Path('.env'))
+    project = os.getenv('MOSS_PROJECT_ID') or local_env.get('MOSS_PROJECT_ID')
+    key = os.getenv('MOSS_PROJECT_KEY') or local_env.get('MOSS_PROJECT_KEY')
     if not project or not key:
         p.error('Set MOSS_PROJECT_ID and MOSS_PROJECT_KEY in your environment; never commit them')
     secrets = [key, project + ':' + key]
