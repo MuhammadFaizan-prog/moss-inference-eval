@@ -1,0 +1,27 @@
+{
+  "source": "Moss task detail UI; transcribed, not raw API output",
+  "observed_local_date": "2026-11-25",
+  "task_id": "task_3a27ae27b2e0441dbb8e2e9237bf6ade",
+  "goal": "Open https://moss-evaluation.invalid and report the page title. Do not search or visit any other site. If it does not load, report that clearly.",
+  "start_url": "https://moss-evaluation.invalid",
+  "model_displayed": "Moss Balanced",
+  "limits_entered": {
+    "time_limit_minutes": 1,
+    "spend_limit_usd": 0.05
+  },
+  "intermediate_observation": {
+    "status": "Running",
+    "displayed_elapsed_seconds": 17,
+    "steps": 0,
+    "displayed_spend": "not yet shown"
+  },
+  "terminal_observation": {
+    "status_displayed": "Succeeded",
+    "displayed_time_seconds": 16,
+    "displayed_spend_usd": 0.051,
+    "steps": 3,
+    "tokens": 31931,
+    "result": "https://moss-evaluation.invalid did not load. The browser reported ERR_SOCKS_CONNECTION_FAILED, so the website's page title could not be retrieved."
+  },
+  "qualification": "Succeeded at instructed fallback; not a terminal task failure. Cost components were not visible."
+}

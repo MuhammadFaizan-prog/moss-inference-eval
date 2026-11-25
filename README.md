@@ -1,34 +1,29 @@
-# Moss Inference evaluation — work in progress
+# Moss Inference evaluation
 
-**Not a submission.** As of 25 November 2026 no live inference or Tasks API calls have been run by this harness. Configure and Plans were inspected, but fresh key and billing pages subsequently timed out. A clean project key and the current credit balance could not be verified. Do not infer API results from this scaffolding; see `PORTAL_OBSERVATIONS.md` for the limited firsthand findings.
+**Status: review draft, not a finished submission.** This private repository contains live **portal UI** observations from 25 November 2026, a reproducible direct-API harness and offline tests. No direct Inference or Tasks API request has been executed with this harness; UI outcomes are not raw HTTP transcripts. A terminal task failure and empty retrieval result remain untested. The one-page work sample is [WORKING_DRAFT.md](WORKING_DRAFT.md) and needs the candidate's personal review and wording.
 
-## Purpose
+## What was observed
 
-Reproduce a small set of sequential, synthetic probes for Moss Inference and Tasks, capturing HTTP status, allowed diagnostic headers, response, elapsed time and task polling states. `stream` measures client-side first text delta, first complete sentence and end-of-stream separately; neither is end-to-end voice latency. This is not yet a RAG benchmark. Full raw API responses may contain sensitive information: review every log manually before sharing.
+- A built-in 55-document SaaS FAQ index returned a password-reset answer matching the example shown in the sample picker. Without the index, the same question produced a missing-information answer. One sample each; not a benchmark.
+- Two Playground requests had different timing numbers in Playground and Logs & Traces for the same request IDs. The clocks' boundaries are unknown.
+- Two portal Tasks completed: example.com yielded a schema-matching result; the unreachable-site task reported the access error and succeeded at its fallback goal. Neither establishes terminal job failure.
+- Empty goals and malformed JSON were blocked; an array-root schema enabled Run but was rejected on submission.
+- The task screens displayed $0.053 and $0.051 with $0.05 limits; documented model-call-only limits, in-flight calls and extra browser/traffic charges mean this alone is not proof of a billing bug. See [evidence](evidence/) for exact inputs and qualifications.
 
-## Safety first
+## Reproduce safely
 
-- First inspect the portal for the remaining included balance, pending usage and auto-reload. Do not run these if spending could exceed included credits.
-- Tasks' `max_cost_usd` is **not a total cap**: it covers model calls only, in-flight calls can overshoot, and browser time/traffic are billed separately, even for failures and cancellations. Traffic costs may appear later. The script cannot enforce a credit-only budget. Run one task at a time, monitor it and stop if unsure.
-- The code sends credentials only to `https://inference.moss.dev`; redirects are not followed. Logs do not record the authorization header and known key values are redacted. This does not guarantee all sensitive content is removed. Audit outputs before committing or publishing.
-- A timed-out creation or poll has an unknown outcome; inspect the portal before retrying. Never start another task blindly. The script records the task ID on confirmed creation and exits if polling fails.
+Requires Python 3.11+, standard library. First verify included credit, auto-reload, pending costs and absence of out-of-pocket exposure. Tasks' model-call limit is **not an all-in cap**: browser/traffic, failed work and in-flight calls can add costs; billing can lag. Never use an exposed credential. Provide a new, safely stored authorized key in an ignored local .env based on .env.example. Do not put keys in code, logs, history or GitHub. Redirects are disabled and log redaction is best-effort; manually review every output before sharing.
 
-## Run
+Run from the repo directory:
 
-Requires Python 3.11+; standard library only. Run from this directory. Copy `.env.example` to `.env` and privately add the project key, or set `MOSS_PROJECT_ID` and `MOSS_PROJECT_KEY` in your shell. Do not put the key in source, command history, or chat. Never commit `.env` files; it is ignored. Existing environment variables take precedence over `.env`.
+    python -m unittest discover -s tests -v
+    python -m scripts.probe invalid-inference --balance-checked
+    python -m scripts.probe inference --balance-checked
+    python -m scripts.probe stream --balance-checked
+    python -m scripts.probe invalid-task --balance-checked
+    python -m scripts.probe task --balance-checked
 
-```powershell
-python -m unittest discover -s tests -v
-# After confirming the balance and auto-reload status:
-python -m scripts.probe invalid-inference --balance-checked
-python -m scripts.probe inference --balance-checked
-python -m scripts.probe stream --balance-checked
-python -m scripts.probe invalid-task --balance-checked
-# Only if the balance and pending costs leave adequate headroom:
-python -m scripts.probe task --balance-checked
-```
-
-Each command creates a timestamped JSONL file under `logs/`. The live cases are not unit tests and may cost credits. The inference probes return a nonzero exit code for unexpected HTTP status, a failed stream, or a stream without a completed terminal event. A `400` in a validation probe is an expected response, not a successful inference. Logs are ignored by default: audit and explicitly stage only redacted files you intend to share. See `PLAN.md` for remaining coverage and completion criteria. Distinguish documentation from measured results; add request IDs, task IDs, timestamps, actual costs, sample size and environment. Do not claim sub-200ms, schema failures, or retrieval results until measured.
+The task command is billable and must be run singly with adequate headroom. A timed-out submission has an unknown outcome; inspect it before retrying. Inspect the logged terminal status and verification even if the command exits zero; terminal failed/cancelled states are not currently classified as a failing exit by the harness. Logs are ignored by default. Offline tests were run previously (11 passing); they do not validate the remote service.
 
 ## Sources
 

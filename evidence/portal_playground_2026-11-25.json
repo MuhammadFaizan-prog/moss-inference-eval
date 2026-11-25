@@ -1,0 +1,15 @@
+{
+  "source": "Moss Playground UI; transcribed, not raw API output",
+  "observed_local_date": "2026-11-25",
+  "model": "Fastlane 1",
+  "index": "none",
+  "prompt": "In one sentence, explain why a voice assistant should start speaking before its full response is generated.",
+  "answer": "By beginning to speak as soon as the initial audio chunks are ready, the assistant significantly reduces perceived latency and creates a more natural, conversational flow for the user.",
+  "retrieval_ms": 0,
+  "first_token_ms": 839,
+  "total_ms": 1524,
+  "input_tokens": 106,
+  "output_tokens": 34,
+  "request_id": "756f754d5df448cbb1332dbe554f4006",
+  "qualification": "One ungrounded UI sample; not end-to-end voice latency."
+}

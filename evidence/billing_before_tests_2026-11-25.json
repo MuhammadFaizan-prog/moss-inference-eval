@@ -1,0 +1,12 @@
+{
+  "source": "Moss billing UI before live portal tests",
+  "observed_local_date": "2026-11-25",
+  "plan_displayed": "Developer",
+  "current_balance_usd": 10,
+  "included_monthly_credit_usd": 5,
+  "monthly_credit_used_usd": 0,
+  "monthly_credit_remaining_usd": 5,
+  "auto_reload_displayed": "off",
+  "payment_methods_displayed": "No payment methods",
+  "qualification": "Pre-test snapshot; not final posted or pending costs."
+}

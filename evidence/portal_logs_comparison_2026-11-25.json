@@ -1,0 +1,28 @@
+{
+  "source": "Moss Playground and Logs & Traces UI; transcribed, not raw API output",
+  "observed_local_date": "2026-11-25",
+  "comparison": [
+    {
+      "request_id": "756f754d5df448cbb1332dbe554f4006",
+      "playground_first_token_ms": 839,
+      "logs_first_token_ms": 78,
+      "playground_total_ms": 1524,
+      "logs_total_ms": 595,
+      "tokens_in": 106,
+      "tokens_out": 34,
+      "logs_retrievals": 0,
+      "estimated_charge_displayed": "< $0.0001"
+    },
+    {
+      "request_id": "dba8e7331a3648398ead2b44e3bff7ad",
+      "playground_first_token_ms": 651,
+      "logs_first_token_ms": 172,
+      "playground_total_ms": 1061,
+      "logs_total_ms": 698,
+      "tokens_in": 98,
+      "tokens_out": 47,
+      "logs_retrievals": 0
+    }
+  ],
+  "qualification": "Measurement boundaries are not established. This is not proof of incorrect timing; two samples cannot support a percentile or SLA."
+}

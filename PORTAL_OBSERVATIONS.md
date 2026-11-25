@@ -1,10 +1,13 @@
 # Portal observations — 25 November 2026
 
-These observations are limited to screens actually viewed during this evaluation. They are not a complete portal audit.
+These are browser UI observations, not direct HTTP/API tests. See the redacted JSON evidence for inputs, outputs, request IDs and qualifications. Values are as displayed; billing can lag.
 
-- Configure grouped the project ID, project-key creation and Python, TypeScript and cURL quickstarts into a three-step onboarding flow. I could locate the path to a first request without hunting through the docs.
-- After a project key was created, the Configure screen displayed it in the environment-variable snippet and showed a one-time-save warning. Improvement to consider: hide the value by default, make the one-time reveal/copy explicit, and ensure copied snippets can be safely shared without revealing a credential. Displaying the key once is part of normal onboarding; this is a product improvement, not evidence of a server-side vulnerability.
-- The Plans screen showed the Developer Free plan and listed $10 once at signup. It also said that the workspace pauses when credits run out. The actual account credit balance, pending charges, and auto-reload setting were not verified; do not assume the remaining balance from the plan table.
-- A later attempt to open API keys and billing in fresh tabs timed out. Browser responsiveness was intermittent; this alone is not evidence of a Moss product defect because the local browser/extension could also be responsible.
+- Configure puts project setup and language quickstarts together. A key was displayed in an onboarding snippet; masking by default with explicit reveal/copy would reduce accidental exposure. The key is not in this repo, was not used for tests, and its revocation has not been confirmed.
+- A sample SaaS FAQ index reported 55 documents. The indexed password-reset answer matched the example fact; without the index the answer stated the FAQ was unavailable. Individual retrieved passages were not inspected.
+- The same two request IDs showed differing first-token and total timings in Playground and Logs & Traces; this requires an explanation of measurement boundaries rather than an assumption of a defect.
+- Example.com produced the requested schema-matching task result; the unreachable-site task successfully reported the loading error as instructed. The latter is not a terminal task failure.
+- Empty goals and malformed JSON were blocked. A root-array schema enabled Run but was rejected upon submission, with no task ID shown.
+- The two task pages displayed $0.053 and $0.051 against $0.05 limits; total cost includes categories not necessarily capped by model-call limit. A task's intermediate elapsed display was higher than its final displayed time; the clocks may measure different intervals.
+- Billing displayed a $10 balance, $0.11 of $5 monthly credit used and $4.89 remaining, auto-reload off and no payment methods; values may be rounded or delayed.
 
-No Inference API or Tasks API calls were executed for this take-home as of this note. No latency, error, task ID, verification, cost, or completion figures are claimed. The key exposed in an earlier browser tool result must be treated as compromised. It was not added to the repository; no revocation has been confirmed.
+No direct API calls were made. Portal responsiveness was intermittent and its cause was not established.

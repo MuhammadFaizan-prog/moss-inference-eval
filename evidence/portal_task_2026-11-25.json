@@ -1,0 +1,47 @@
+{
+  "source": "Moss task detail UI; transcribed, not raw API output",
+  "observed_local_date": "2026-11-25",
+  "task_id": "task_a869068896404489a22f52adfd3ac790",
+  "goal": "Read only the page at https://example.com. Return its page title and the first paragraph. Do not visit other websites.",
+  "start_url": "https://example.com",
+  "model_displayed": "Moss Balanced",
+  "limits_entered": {
+    "time_limit_minutes": 1,
+    "spend_limit_usd": 0.05
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string"
+      },
+      "paragraph": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "title",
+      "paragraph"
+    ]
+  },
+  "intermediate_observation": {
+    "status": "Running",
+    "displayed_elapsed_seconds": 23,
+    "displayed_spend_so_far_usd": 0.043,
+    "steps": 2,
+    "tokens": 19352
+  },
+  "terminal_observation": {
+    "status_displayed": "Succeeded",
+    "displayed_time_seconds": 21,
+    "displayed_spend_usd": 0.053,
+    "steps": 3,
+    "tokens": 32748,
+    "verification_displayed": "Matches the schema",
+    "result": {
+      "title": "Example Domain",
+      "paragraph": "This domain is for use in documentation examples without needing permission. This is not a service; avoid relying on it for testing and monitoring purposes."
+    }
+  },
+  "qualification": "Displayed aggregate spend exceeds $0.05 by $0.003. The documented model-call limit does not cap all cost; cost components were not visible. Clock basis unknown."
+}

@@ -1,0 +1,10 @@
+{
+  "source": "Moss billing UI after live portal tests",
+  "observed_local_date": "2026-11-25",
+  "current_balance_usd": 10,
+  "included_monthly_credit_used_usd_displayed": 0.11,
+  "included_monthly_credit_remaining_usd_displayed": 4.89,
+  "auto_reload_displayed": "off",
+  "payment_methods_displayed": "No payment methods",
+  "qualification": "Rounded and potentially delayed; documentation says task traffic costs may post hours later. Task pages separately displayed $0.053 and $0.051."
+}

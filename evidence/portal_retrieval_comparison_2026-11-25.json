@@ -1,0 +1,32 @@
+{
+  "source": "Moss Indexes and Playground UI; transcribed, not raw API output",
+  "observed_local_date": "2026-11-25",
+  "index_setup": {
+    "name": "takehome-voice-faq",
+    "source": "Moss built-in SaaS Support FAQs sample",
+    "documents_displayed": 55,
+    "embedding_model_displayed": "moss-minilm",
+    "example_fact_displayed_before_creation": "Reset password: Click 'Forgot Password' on the sign-in page to receive a reset link via email."
+  },
+  "prompt": "According to the support FAQ, how can a user reset their password? Answer in one sentence and say if the information is missing.",
+  "model_displayed": "Fastlane 1",
+  "with_index": {
+    "request_id": "02130407475148b3a8a132e9d97566ae",
+    "retrieval_ms": 15,
+    "first_token_ms": 392,
+    "total_ms": 594,
+    "input_tokens": 457,
+    "output_tokens": 29,
+    "answer": "To reset their password, a user should click the 'Forgot Password' link on the sign-in page to receive a reset link via email."
+  },
+  "without_index": {
+    "request_id": "37fea2309b92416a96c8134b2a2fdaa5",
+    "retrieval_ms": 0,
+    "first_token_ms": 345,
+    "total_ms": 607,
+    "input_tokens": 113,
+    "output_tokens": 23,
+    "answer": "The provided text does not contain a support FAQ or any information regarding password resets, so the information is missing."
+  },
+  "qualification": "One observation per setup in separate new chats, in this order. Answer matches sample-picker fact; individual retrieved passages were not inspected. UI values are not a distribution, voice benchmark, or SLA."
+}

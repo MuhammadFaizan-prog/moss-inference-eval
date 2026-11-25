@@ -1,0 +1,15 @@
+{
+  "source": "Moss Playground UI; transcribed, not raw API output",
+  "observed_local_date": "2026-11-25",
+  "model": "Fastlane 1",
+  "index": "none",
+  "prompt": "Answer in one sentence: what is a prefix cache?",
+  "answer": "A prefix cache is a data storage mechanism that retains the internal state (such as key-value pairs or computed contexts) corresponding to specific beginning sequences, allowing systems like language models or databases to skip redundant calculations for previously encountered identical prefixes.",
+  "retrieval_ms": 0,
+  "first_token_ms": 651,
+  "total_ms": 1061,
+  "input_tokens": 98,
+  "output_tokens": 47,
+  "request_id": "dba8e7331a3648398ead2b44e3bff7ad",
+  "qualification": "One ungrounded UI sample; not end-to-end voice or RAG latency."
+}

@@ -1,0 +1,26 @@
+{
+  "source": "Moss Tasks new-task dialog UI; transcribed, not raw HTTP/API output",
+  "observed_local_date": "2026-11-25",
+  "cases": [
+    {
+      "case": "empty goal",
+      "observation": "Run task disabled in a new empty form."
+    },
+    {
+      "case": "malformed JSON schema",
+      "input": "{invalid json",
+      "observation": "Run task disabled; guidance began 'A JSON Schema object'. No task submitted."
+    },
+    {
+      "case": "valid JSON but root array schema",
+      "input": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "observation": "Run enabled; submission left dialog open and showed: output_schema must describe one JSON object: its type must be object. For a list, put it in a property. No task ID shown."
+    }
+  ],
+  "qualification": "UI observations only. HTTP status and validation source not measured; no proof of a paid task creation."
+}
