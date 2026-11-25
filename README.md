@@ -1,6 +1,6 @@
 # Moss Inference evaluation — work in progress
 
-**Not a submission.** As of 25 November 2026 no live inference or Tasks API calls have been run by this harness. The portal did not respond to the browser, and the project key and current credit balance were unavailable. Do not infer product results from this scaffolding.
+**Not a submission.** As of 25 November 2026 no live inference or Tasks API calls have been run by this harness. Configure and Plans were inspected, but fresh key and billing pages subsequently timed out. A clean project key and the current credit balance could not be verified. Do not infer API results from this scaffolding; see `PORTAL_OBSERVATIONS.md` for the limited firsthand findings.
 
 ## Purpose
 
@@ -28,7 +28,7 @@ python -m scripts.probe invalid-task --balance-checked
 python -m scripts.probe task --balance-checked
 ```
 
-Each command creates a timestamped JSONL file under `logs/`. The live cases are not unit tests and may cost credits. See `PLAN.md` for the remaining coverage and completion criteria. Evidence should distinguish documentation from measured results; add request IDs, task IDs, timestamp, actual costs, sample size and environment. Do not claim sub-200ms, schema failures, or retrieval results until measured.
+Each command creates a timestamped JSONL file under `logs/`. The live cases are not unit tests and may cost credits. The inference probes return a nonzero exit code for unexpected HTTP status, a failed stream, or a stream without a completed terminal event. A `400` in a validation probe is an expected response, not a successful inference. Logs are ignored by default: audit and explicitly stage only redacted files you intend to share. See `PLAN.md` for remaining coverage and completion criteria. Distinguish documentation from measured results; add request IDs, task IDs, timestamps, actual costs, sample size and environment. Do not claim sub-200ms, schema failures, or retrieval results until measured.
 
 ## Sources
 

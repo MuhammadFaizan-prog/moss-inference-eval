@@ -21,6 +21,15 @@ def clean_headers(headers):
 def valid_task_id(value):
     return isinstance(value, str) and re.fullmatch(r'task_[0-9a-f]{32}', value) is not None
 
+def case_ok(case, record):
+    if case in ('invalid-inference', 'invalid-task'):
+        return record.get('status') == 400
+    if record.get('status') != 200:
+        return False
+    if case == 'stream':
+        return (record.get('terminal') or {}).get('type') == 'response.completed'
+    return True
+
 class NoRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self, req, fp, code, msg, headers, newurl):
         return None
@@ -87,11 +96,15 @@ def main():
         if args.case in ('inference', 'invalid-inference', 'stream'):
             body = {'model': 'invalid-model-for-contract-test' if args.case == 'invalid-inference' else 'moss/fastlane-1', 'input': 'Answer in one sentence: what is a prefix cache?', 'stream': args.case == 'stream'}
             log({'case': args.case, 'request_body': body})
-            call('POST', '/responses', body, args.case == 'stream')
+            record = call('POST', '/responses', body, args.case == 'stream')
+            if not case_ok(args.case, record):
+                print('Unexpected response or incomplete stream; inspect evidence.', file=sys.stderr); return 1
         elif args.case == 'invalid-task':
             body = {'goal': 'Read example.com', 'environment': {'type': 'unsupported'}}
             log({'case': args.case, 'request_body': body})
-            call('POST', '/tasks', body)
+            record = call('POST', '/tasks', body)
+            if not case_ok(args.case, record):
+                print('Unexpected validation response; inspect evidence.', file=sys.stderr); return 1
         else:
             body = task_payload(); log({'case': args.case, 'request_body': body})
             created = call('POST', '/tasks', body)
